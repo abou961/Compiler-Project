@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 using namespace std;
 
 enum Identificateurs { OPENPAR, CLOSEPAR, PLUS, MULT, INT, FIN, ERREUR, EXPRESSION };
@@ -9,18 +10,20 @@ const string Etiquettes[] = { "OPENPAR", "CLOSEPAR", "PLUS", "MULT", "INT", "FIN
 
 class Symbole {
    public:
-      Symbole(int i) : ident(i) {  }
+      Symbole(int i, bool terminal) : ident(i), terminal(terminal) {  }
       virtual ~Symbole() { }
+      bool isTerminal() { return terminal; }
       operator int() const { return ident; }
       virtual void Affiche();
 
    protected:
+      bool terminal;
       int ident;
 };
 
 class Entier : public Symbole {
    public:
-      Entier(int v) : Symbole(INT), valeur(v) { }
+      Entier(int v) : Symbole(INT, true), valeur(v) { }
       ~Entier() { }
       virtual void Affiche();
    protected:
@@ -29,10 +32,10 @@ class Entier : public Symbole {
 
 class Expr : public Symbole {
    public:
-      Expr() : Symbole(EXPRESSION) { }
+      Expr() : Symbole(EXPRESSION, false) { }
       ~Expr() { }
-      int Eval();
-}
+      virtual double eval(const map<string, double> & valeurs) = 0;
+};
 
 class ExprBin : public Expr {
    public:
@@ -41,7 +44,7 @@ class ExprBin : public Expr {
    protected:
       Expr * e1;
       Expr * e2;
-}
+};
 
 class ExprCste : public Expr {
    public:
@@ -49,16 +52,18 @@ class ExprCste : public Expr {
       ~ExprCste() { }
    private:
       int val;
-}
+};
 
 class ExprPlus : public ExprBin {
    public:
       ExprPlus(Expr * e1, Expr * e2) : ExprBin(e1, e2) { }
       ~ExprPlus() { }
-}
+      double eval(const map<string, double> & valeurs);
+};
 
-class ExprMult : public ExprMult {
+class ExprMult : public ExprBin {
    public:
       ExprMult(Expr * e1, Expr * e2) : ExprBin(e1, e2) { }
       ~ExprMult() { }
-}
+      double eval(const map<string, double> & valeurs);
+};

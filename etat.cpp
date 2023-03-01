@@ -1,4 +1,4 @@
-#include "etat.cpp"
+#include "etat.h"
 
 void E0::transition(Automate & automate, Symbole * symbole){
     switch(*symbole){
@@ -50,20 +50,20 @@ void E2::transition(Automate & automate, Symbole * symbole){
 void E3::transition(Automate & automate, Symbole * symbole){
     switch(*symbole){
         case PLUS:
-            Expr * s1 = automate.pileSymboles.pop();
-            automate.pileSymboles.pop();
-            Expr * s2 = automate.pileSymboles.pop();
-            Symbole s_gauche = new ExprPlus(s1, s2);
-            automate.reduction(1, s_gauche);
+            ExprCste * val = (ExprCste *) automate.pileSymboles.pop();
+            automate.reduction(1, val);
             break;
         case MULT:
-            automate.reduction(1);
+            ExprCste * val = (ExprCste *) automate.pileSymboles.pop();
+            automate.reduction(1, val);
             break;
         case CLOSEPAR:
-            automate.reduction(1);
+            ExprCste * val = (ExprCste *) automate.pileSymboles.pop();
+            automate.reduction(1, val);
             break;
         case FIN:
-            automate.reduction(1);
+            ExprCste * val = (ExprCste *) automate.pileSymboles.pop();
+            automate.reduction(1, val);
         default:
             //err
     }
@@ -130,10 +130,18 @@ void E7::transition(Automate & automate, Symbole * symbole){
             automate.decalage(new E5, symbole);
             break;
         case CLOSEPAR:
-            automate.reduction(3);
+            Expr * s1 = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            Expr * s2 = automate.pileSymboles.pop();
+            Symbole s_gauche = new ExprPlus(s1, s2);
+            automate.reduction(3, s_gauche);
             break;
         case FIN:
-            automate.reduction(3);
+            Expr * s1 = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            Expr * s2 = automate.pileSymboles.pop();
+            Symbole s_gauche = new ExprPlus(s1, s2);
+            automate.reduction(3, s_gauche);
             break;
         default:
             //err
@@ -146,17 +154,29 @@ void E8::transition(Automate & automate, Symbole * symbole){
             Expr * s1 = automate.pileSymboles.pop();
             automate.pileSymboles.pop();
             Expr * s2 = automate.pileSymboles.pop();
-            Symbole s_gauche = new ExprPlus(s1, s2);
+            Symbole s_gauche = new ExprMult(s1, s2);
             automate.reduction(3, s_gauche);
             break;
         case MULT:
-            automate.reduction(3);
+            Expr * s1 = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            Expr * s2 = automate.pileSymboles.pop();
+            Symbole s_gauche = new ExprMult(s1, s2);
+            automate.reduction(3, s_gauche);
             break;
         case CLOSEPAR:
-            automate.reduction(3);
+            Expr * s1 = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            Expr * s2 = automate.pileSymboles.pop();
+            Symbole s_gauche = new ExprMult(s1, s2);
+            automate.reduction(3, s_gauche);
             break;
         case FIN:
-            automate.reduction(3);
+            Expr * s1 = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            Expr * s2 = automate.pileSymboles.pop();
+            Symbole s_gauche = new ExprMult(s1, s2);
+            automate.reduction(3, s_gauche);
             break;
         default:
             //err
@@ -166,20 +186,28 @@ void E8::transition(Automate & automate, Symbole * symbole){
 void E9::transition(Automate & automate, Symbole * symbole){
     switch(*symbole){
         case PLUS:
-            Expr * s1 = automate.pileSymboles.pop();
             automate.pileSymboles.pop();
-            Expr * s2 = automate.pileSymboles.pop();
-            Symbole s_gauche = new ExprPlus(s1, s2);
-            automate.reduction(3, s_gauche);
+            Expr * s = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            automate.reduction(3, *s);
             break;
         case MULT:
-            automate.reduction(3);
+            automate.pileSymboles.pop();
+            Expr * s = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            automate.reduction(3, *s);
             break;
         case CLOSEPAR:
-            automate.reduction(3);
+            automate.pileSymboles.pop();
+            Expr * s = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            automate.reduction(3, *s);
             break;
         case FIN:
-            automate.reduction(3);
+            automate.pileSymboles.pop();
+            Expr * s = automate.pileSymboles.pop();
+            automate.pileSymboles.pop();
+            automate.reduction(3, *s);
             break;
         default:
             //err

@@ -1,61 +1,74 @@
 #include "automate.h"
+#include <string>
 
 using namespace std;
 
-class Etat{ // abstarite
+class Etat{ // abstraite
     public:
-        Etat() { }
+        Etat(string name) : name(name) { }
         ~Etat() { }
-
-        void transition(Automate & automate, Symbole * liste_symboles) = 0;
-}
+        virtual bool transition(Automate & automate, Symbole * liste_symboles) = 0;
+    
+    protected:
+        string name;
+};
 
 class E0 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E0() : Etat("E0") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E1 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E1() : Etat("E1") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E2 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E2() : Etat("E2") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E3 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E3() : Etat("E3") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E4 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E4() : Etat("E4") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E5 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E5() : Etat("E5") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E6 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E6() : Etat("E6") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E7 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E7() : Etat("E7") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E8 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E8() : Etat("E8") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};
 
 class E9 : public Etat{
     public:
-        void transition(Automate & automate, Symbole * liste_symboles);
-}
+        E9() : Etat("E9") {}
+        bool transition(Automate & automate, Symbole * liste_symboles);
+};

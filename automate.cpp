@@ -1,36 +1,39 @@
 #include "automate.h"
-#include <vector>
 
 using namespace std;
 
-void Automate::decalage(Etat& etat, Symbole symbole){
+Automate::Automate() {
+    pileEtats.push(new E0);
+}
+
+void Automate::decalage(Etat * etat, Symbole * symbole){
     // Empiler Etat
     this->pileEtats.push(etat);
 
     // Empiler Symbole
-    this->pileSymboles.push(symbole)
+    this->pileSymboles.push(symbole);
 
-    // Avancer tête de lecture
-    this->lexer.Avancer();
+    // Avancer tête de lecture si le symbole est terminal
+    if (symbole->isTerminal()) {
+        this->lexer->Avancer();
+    }
 }
 
-void Automate::decalageTer(Etat& etat, Symbole symbole){
+void Automate::decalageTer(Etat * etat, Symbole * symbole){
     // Empiler Etat
     this->pileEtats.push(etat);
 
     // Empiler Symbole
-    this->pileSymboles.push(symbole)
+    this->pileSymboles.push(symbole);
 }
 
 
-void Automate::reduction(int n, Symbole s){
+void Automate::reduction(int n, Symbole * symbole){
     // Symbole s
     for(int i = 0; i < n; i++){
         this->pileEtats.pop();
     }
-
-    transition(this->pileEtats.top(), s)
-
+    this->pileEtats.top()->transition(*this, symbole);
 }
 
 void Automate::accepter(){

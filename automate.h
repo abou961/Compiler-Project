@@ -1,23 +1,24 @@
-#include "symbole.h"
-#include "lexer.h"
 #include <stack>
-class Etat;
+#include "lexer.h"
+#include "symbol.h"
+class State;
 
 using namespace std;
 
 class Automate {
     public:
-        Automate(Lexer * l) : lexer(l), end_reached(false) { }
-        Etat * topPileEtats() { return pileEtats.top(); }
-        void decalage(Etat * etat, Symbole * symbole);
-        void decalageTer(Etat * etat, Symbole * symbole);
-        void reduction(int n, Symbole * symbole); 
-        void accepter();
-        ~Automate(); 
+        Automate(string chaine);
+        ~Automate() { } 
+        void lecture();
+        void decalage(State * state, Symbol * symbol);
+        void decalageNonTerminal(State * state, Symbol * symbol);
+        void reduction(int n, Symbol * symbol); 
+        void accepter() { end_reached = true; }
+        Symbol * popSymbol();
 
     private:
-        stack<Etat *> pileEtats;
-        stack<Symbole *> pileSymboles;
+        stack<State *> stateStack;
+        stack<Symbol *> symbolStack;
         Lexer * lexer;
         bool end_reached;
 };

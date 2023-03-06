@@ -4,7 +4,7 @@
 using namespace std;
 
 Automate::Automate(string chaine) {
-    lexer = new Lexer(chaine);
+    this->lexer = new Lexer(chaine);
     end_reached = false;
     stateStack.push(new State0);
 }
@@ -37,22 +37,20 @@ void PrintSymbolStack(stack<Symbol *> s)
     s.push(x);
 }
 
-void Automate::lecture(){
+bool Automate::lecture(){
     Symbol * s;
     while(!end_reached) {
         s=lexer->Consulter();
-        cout << "--------------" << endl;
-        cout << "Pile d'états : ";
-        PrintStateStack(stateStack);
-        cout<<endl;
-        cout << "Pile de symboles : ";
-        PrintSymbolStack(symbolStack);
-        cout<<endl;
-        cout << "Symbole tampon : ";
-        s->Affiche();
-        cout<<endl;
-        stateStack.top()->transition(*this, s);
+        if(!stateStack.top()->transition(*this, s)){
+            break;
+        }
     }
+    if (*symbolStack.top() != ERREUR)
+    {
+        result = dynamic_cast<Expr *>(symbolStack.top())->eval();
+        return true;
+    }
+    return false;
 }
 
 void Automate::decalage(State * state, Symbol * symbol){

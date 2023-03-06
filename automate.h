@@ -15,7 +15,7 @@ class Automate {
         void reduction(int n, Symbol * symbol); 
         void accepter() { end_reached = true; }
         Symbol * popSymbol();
-        int getResult() {return result;}
+        int getResult() { return result; }
 
     private:
         stack<State *> stateStack;

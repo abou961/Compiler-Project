@@ -8,7 +8,7 @@ int main(void) {
 
    string codeUser("Y");
 
-   cout << "____________Automate___________\n\n\n";
+   cout << "____________Automate___________\n\n";
    
    while(codeUser != "n" && codeUser != "N"){
       codeUser = "";
@@ -18,7 +18,7 @@ int main(void) {
 
       Automate * automate = new Automate(chain); // changer
       if(!automate->lecture()){
-         cout << "Erreur !" << endl;
+         cout << "Error !" << endl;
       } else {
          cout << "Result : " << automate->getResult() << endl; // ajouter
       }
